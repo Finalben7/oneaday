@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { supabase } from '../supabaseClient'
+import { useNavigate } from 'react-router-dom'
 import Header from '../components/Header'
 
 export default function Login() {
+  const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -12,35 +14,41 @@ export default function Login() {
     if (error) {
       alert(error.message)
     } else {
-      alert('Logged in!')
+      navigate('/dashboard')
     }
   }
 
   return (
     <div>
         <Header/>
-        <div className="p-4 max-w-sm mx-auto text-white">
-        <h2>Log In</h2>
-        <input
-            className="w-full p-2 mb-2 rounded text-black"
+        <form className='p-4 max-w-sm mx-auto'
+          onSubmit={(e) => {
+            e.preventDefault(); // prevent page reload
+            handleLogin();      // call your login logic
+          }}
+          >
+          <h2>Login</h2>
+          <input
+            type="email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-            className="w-full p-2 mb-4 rounded text-black"
-            placeholder="Password"
+            className="w-full p-2 mb-2 rounded text-black"
+          />
+          <input
             type="password"
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-        />
-        <button
+            className="w-full p-2 mb-4 rounded text-black"
+          />
+          <button
+            type="submit" // 🔑 This makes the button trigger when hitting Enter
             className="w-full p-2 rounded"
-            onClick={handleLogin}
-        >
-            Log In
-        </button>
-        </div>
+          >
+            Login
+          </button>
+        </form>
     </div>
   )
 }
