@@ -13,5 +13,18 @@ h2 {
 }
 
 input {
-    @apply dark:bg-white;
+    @apply w-full p-2 mb-2 rounded  dark:text-black dark:bg-white;
+}
+
+@keyframes scroll-vertical {
+0% {
+  transform: translateY(0%);
+}
+100% {
+  transform: translateY(-50%);
+}
+}
+
+.animate-vertical-scroll {
+animation: scroll-vertical 20s linear infinite;
 }

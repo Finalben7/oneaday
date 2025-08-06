@@ -33,14 +33,14 @@ export default function Login() {
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-2 mb-2 rounded text-black"
+            className="w-full p-2 mb-2 rounded"
           />
           <input
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-2 mb-4 rounded text-black"
+            className="w-full p-2 mb-4 rounded"
           />
           <button
             type="submit" // 🔑 This makes the button trigger when hitting Enter
