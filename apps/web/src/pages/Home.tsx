@@ -1,7 +1,31 @@
-import Header from "../components/Header";
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useSession } from '@supabase/auth-helpers-react';
 import logo from "../assets/react.svg"
+import Header from "../components/Header";
+import LoadingAnimation from '../components/LoadingAnimation';
 
 const Home = () => {
+  const session = useSession();
+  const navigate = useNavigate();
+  const [redirecting, setRedirecting] = useState(false);
+
+  useEffect(() => {
+    if (session?.user) {
+      setRedirecting(true);
+      // Delay slightly to show the message (optional)
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 4000); // 1 second delay to let user see the message
+    }
+  }, [session, navigate]);
+
+  if (redirecting) {
+    return (
+      <LoadingAnimation text= "Returning you to your dashboard" />
+    );
+  }
+
   return (
     <div>
       <Header />
