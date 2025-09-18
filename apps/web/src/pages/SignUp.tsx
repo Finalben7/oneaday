@@ -14,8 +14,9 @@ export default function SignUp() {
       options: {
         data: {
           display_name: displayName
-        }
-      }
+        },
+        emailRedirectTo: `${window.location.origin}/dashboard`
+      },
      });
 
     if (error) {

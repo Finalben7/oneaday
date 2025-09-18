@@ -55,7 +55,7 @@ const TaskInput = () => {
           min={1}
         />
         <button
-          onClick={handleAddTask}
+          type="submit"
           className="font-semibold py-2 px-4 rounded"
         >
           Add Task
