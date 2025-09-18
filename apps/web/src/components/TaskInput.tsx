@@ -1,61 +1,61 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { supabase } from '../supabaseClient';
-import { useUser } from '@supabase/auth-helpers-react';
+import { useSession } from '@supabase/auth-helpers-react';
 
 const TaskInput = () => {
-  const user = useUser();
   const [content, setContent] = useState('');
   const [stepsRequired, setStepsRequired] = useState(1);
+  const session = useSession();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!user) return alert("You must be logged in to add tasks.");
+  const handleAddTask = async () => {
+    if (!session?.user) {
+      alert('You must be logged in to add tasks.');
+      return;
+    }
 
     const { error } = await supabase.from('tasks').insert([
       {
-        user_id: user.id,
-        content: content.trim(),
-        steps_required: stepsRequired,
-        steps_complete: 0,
+        user_id: session.user.id,
+        content,
         is_complete: false,
+        steps_complete: 0,
+        steps_required: stepsRequired,
       },
     ]);
 
     if (error) {
-      console.error('Error inserting task:', error.message);
-      alert('Failed to add task.');
+      console.error('Error adding task:', error.message);
     } else {
       setContent('');
       setStepsRequired(1);
-      alert('Task added!');
     }
   };
 
   return (
-    <div>
-      <h2>Add Your Tasks To Get Started!</h2>
-      <form onSubmit={handleSubmit} className="flex flex-col py-4 gap-4 max-w-md w-full">
+    <div className="max-w-md w-full">
+      <h2>Add Tasks To Get Started!</h2>
+      <form 
+        className="flex flex-col py-4 gap-4"
+        onSubmit={handleAddTask}
+      >
+        <h4>Name your task</h4>
         <input
-          type="text"
-          placeholder="Task description"
+          className="border p-2 rounded"
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          className="p-2 border rounded"
+          placeholder="Enter a new task"
           required
         />
-
+        <h4>Number of steps to complete task</h4>
         <input
           type="number"
-          min="1"
-          placeholder="Steps required"
+          className="border p-2 rounded w-20"
           value={stepsRequired}
-          onChange={(e) => setStepsRequired(parseInt(e.target.value))}
-          className="p-2 border rounded"
-          required
+          onChange={(e) => setStepsRequired(Number(e.target.value))}
+          min={1}
         />
-
         <button
-          type="submit"
+          onClick={handleAddTask}
           className="font-semibold py-2 px-4 rounded"
         >
           Add Task
