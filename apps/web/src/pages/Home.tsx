@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSession } from '@supabase/auth-helpers-react';
-import logo from "../assets/react.svg"
+import logo from "../assets/one-a-day-no-bg.png"
 import Header from "../components/Header";
 import LoadingAnimation from '../components/LoadingAnimation';
 
@@ -32,7 +32,7 @@ const Home = () => {
       <section className="text-center py-20">
         <h1 className="text-4xl font-bold">Welcome to One A Day</h1>
         <p className="mt-4 text-lg">Your daily accountability companion.</p>
-        <img src={logo} alt="Hero" className="mt-8 mx-auto w-1/2 rounded" />
+        <img src={logo} alt="Hero" className="mt-8 mx-auto w-1/4 h-1/2 rounded" />
       </section>
     </div>
   );
